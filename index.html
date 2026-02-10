@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUKHARIYA EDUCATIONAL CENTRE - Asset Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --accent: #3b82f6;
+            --bg: #f8fafc;
+            --text-dark: #1e293b;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header-main {
+            text-align: center;
+            margin: 25px 0;
+            color: var(--primary);
+        }
+
+        .header-main h1 { font-size: 26px; margin: 0; font-weight: 800; letter-spacing: -0.5px; }
+        .header-main p { font-size: 14px; margin: 5px 0; font-weight: 600; opacity: 0.8; }
+
+        .search-area {
+            background: white;
+            padding: 12px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            display: flex;
+            gap: 10px;
+            width: 95%;
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 12px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            flex: 1;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+
+        .btn-group { display: flex; gap: 8px; }
+
+        button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-search { background-color: var(--accent); color: white; }
+        .btn-reset { background-color: #ef4444; color: white; }
+        .btn-download { 
+            background: #059669;
+            color: white; 
+            margin-bottom: 20px;
+            display: none;
+            width: 95%;
+            max-width: 500px;
+        }
+
+        #assetCard {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 650px;
+            border-radius: 24px;
+            overflow: hidden;
+            display: none;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .card-header-print {
+            padding: 25px 15px;
+            text-align: center;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .card-header-print h2 { color: var(--primary); margin: 0; font-size: 22px; }
+        .card-header-print p { color: #64748b; margin: 5px 0 0; font-size: 13px; font-weight: 700; text-transform: uppercase; }
+
+        .card-sub-header {
+            background: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .card-body {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            padding: 20px;
+            gap: 12px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .icon-box {
+            width: 38px;
+            height: 38px;
+            background: #dbeafe;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            margin-right: 15px;
+            font-size: 16px;
+        }
+
+        .text-content { display: flex; flex-direction: column; }
+        .label { font-size: 11px; color: #94a3b8; font-weight: 700; text-transform: uppercase; }
+        .value { font-size: 14px; color: var(--text-dark); font-weight: 600; margin-top: 2px; }
+
+        .remarks-box {
+            grid-column: 1 / -1;
+            background: #fdf2f2;
+            border: 1px dashed #fca5a5;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .remarks-box .value {
+            font-family: 'Manjari', sans-serif; /* Manjari Font applied */
+            font-size: 16px;
+            color: #b91c1c;
+            line-height: 1.5;
+        }
+
+        /* Date & Time display in image */
+        .download-footer {
+            padding: 10px 20px;
+            background: #f1f5f9;
+            text-align: right;
+            font-size: 10px;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .card-body { grid-template-columns: 1fr; }
+            .header-main h1 { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-main">
+        <h1>BUKHARIYA EDUCATIONAL CENTRE</h1>
+        <p>INSTITUTION ASSET REGISTER</p>
+    </div>
+
+    <div class="search-area">
+        <input type="text" id="assetInput" placeholder="Enter Asset ID...">
+        <div class="btn-group">
+            <button class="btn-search" onclick="searchAsset()"><i class="fas fa-search"></i></button>
+            <button class="btn-reset" onclick="resetForm()"><i class="fas fa-undo"></i></button>
+        </div>
+    </div>
+
+    <button id="downloadBtn" class="btn-download" onclick="downloadImage()">
+        <i class="fas fa-camera"></i>&nbsp; Download Asset Image
+    </button>
+
+    <div id="assetCard">
+        <div class="card-header-print">
+            <h2>BUKHARIYA EDUCATIONAL CENTRE</h2>
+            <p>INSTITUTION ASSET REGISTER</p>
+        </div>
+        <div class="card-sub-header">
+            <span id="res-AssetID" style="font-weight: 800;"></span>
+            <span id="res-Status" style="background: rgba(255,255,255,0.2); padding: 2px 10px; border-radius: 20px;"></span>
+        </div>
+        <div class="card-body" id="cardContent">
+            </div>
+        <div style="padding: 0 20px 20px 20px;">
+            <div class="remarks-box" id="remarksArea" style="display: none;">
+                <div class="icon-box" style="background: #fee2e2; color: #ef4444;"><i class="fas fa-comment-dots"></i></div>
+                <div class="text-content" style="flex:1;">
+                    <span class="label" style="color: #ef4444;">Remarks</span>
+                    <span class="value" id="res-Remarks"></span>
+                </div>
+            </div>
+        </div>
+        <div class="download-footer" id="dateTimeDisplay"></div>
+    </div>
+
+    <script>
+        const tsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQHQAEtX0eMrBK5qnGcdthpIWdIKlM4pcy0En0DhXhX1MRSBAML6t2c9r1V_7hQRAQHMVOMRRmTrDQc/pub?gid=459295878&single=true&output=tsv';
+
+        async function searchAsset() {
+            const inputId = document.getElementById('assetInput').value.trim().toUpperCase();
+            if (!inputId) return;
+
+            try {
+                const response = await fetch(tsvUrl);
+                const data = await response.text();
+                const rows = data.split('\n').map(row => row.split('\t'));
+                const headers = rows[0].map(h => h.trim());
+                const assetRow = rows.find(row => row[1] && row[1].trim().toUpperCase() === inputId);
+
+                if (assetRow) {
+                    displayAsset(headers, assetRow);
+                } else {
+                    alert("Asset ID not found!");
+                }
+            } catch (error) {
+                alert("Data loading failed!");
+            }
+        }
+
+        function displayAsset(headers, row) {
+            const container = document.getElementById('cardContent');
+            container.innerHTML = '';
+            
+            const icons = {
+                "Sl No": "hashtag", "Asset Name": "box-open", "Category": "shapes", "Description": "file-alt",
+                "Quantity": "layer-group", "Purchase Date": "calendar-check", "Purchase Value": "wallet",
+                "Vendor": "store-alt", "Invoice No": "receipt", "Warranty": "shield-alt",
+                "Warranty Expiry": "history", "Location": "map-marker-alt", "Department": "building",
+                "Assigned To": "user-tie", "Condition": "heartbeat", "Depreciation %": "chart-line",
+                "Current Value": "money-bill-wave", "Last Service Date": "tools", "Next Service Date": "calendar-plus"
+            };
+
+            row.forEach((value, index) => {
+                const label = headers[index]?.trim();
+                // Skip ID, Status and Remarks for the main grid
+                if (!label || label === "Asset ID" || label === "Status" || label === "Remarks") return;
+
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'info-row';
+                const icon = icons[label] || "dot-circle";
+                
+                rowDiv.innerHTML = `
+                    <div class="icon-box"><i class="fas fa-${icon}"></i></div>
+                    <div class="text-content">
+                        <span class="label">${label}</span>
+                        <span class="value">${value || '---'}</span>
+                    </div>
+                `;
+                container.appendChild(rowDiv);
+            });
+
+            // Special Handling for Remarks (Manjari Font)
+            const remarksValue = row[21]; // Remarks column
+            if (remarksValue && remarksValue.trim() !== "") {
+                document.getElementById('res-Remarks').innerText = remarksValue;
+                document.getElementById('remarksArea').style.display = 'flex';
+            } else {
+                document.getElementById('remarksArea').style.display = 'none';
+            }
+
+            document.getElementById('res-AssetID').innerText = "ASSET ID: " + row[1];
+            document.getElementById('res-Status').innerText = row[20] || "N/A";
+            
+            // Set Current Date/Time
+            const now = new Date();
+            document.getElementById('dateTimeDisplay').innerText = "Generated on: " + now.toLocaleString();
+
+            document.getElementById('assetCard').style.display = 'block';
+            document.getElementById('downloadBtn').style.display = 'flex';
+        }
+
+        function resetForm() {
+            document.getElementById('assetInput').value = '';
+            document.getElementById('assetCard').style.display = 'none';
+            document.getElementById('downloadBtn').style.display = 'none';
+        }
+
+        function downloadImage() {
+            const card = document.getElementById('assetCard');
+            // Refresh time just before download
+            const now = new Date();
+            document.getElementById('dateTimeDisplay').innerText = "Report Generated: " + now.toLocaleString();
+            
+            html2canvas(card, { scale: 2, useCORS: true }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Asset_${document.getElementById('res-AssetID').innerText}.png`;
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html>
